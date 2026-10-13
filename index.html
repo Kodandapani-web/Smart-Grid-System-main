@@ -1,0 +1,1437 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#07110f">
+<meta name="description" content="Intelligent Home Energy Management System using MATLAB and Simulink.">
+<title>HEMS | Intelligence in Every Watt</title>
+<link rel="stylesheet" href="./style.css">
+</head>
+
+<body>
+<header class="topbar" id="topbar">
+  <div class="wrap nav">
+    <a class="brand" href="#home">
+      <span class="brand-mark">ϟ</span>
+      <span><b>H E M S</b><small>ENERGY INTELLIGENCE</small></span>
+    </a>
+
+    <nav class="navlinks" id="navlinks">
+      <a href="#overview">Overview</a>
+      <a href="#system">Energy system</a>
+      <a href="#telemetry">Telemetry</a>
+      <a href="#lab">What-if lab</a>
+      <a href="#scopes">Scope gallery</a>
+      <a href="#scenarios">Scenarios</a>
+    </nav>
+
+    <div style="display:flex;align-items:center;gap:10px">
+      <div class="status">
+        <span class="dot"></span>
+        <span id="headerStatus">LOADING DATA</span>
+      </div>
+      <button class="menu-btn" id="menuBtn" aria-label="Toggle navigation" aria-expanded="false">☰</button>
+    </div>
+  </div>
+  <div class="progress" id="progress"></div>
+</header>
+
+<main>
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="hero-grid"></div>
+
+  <div class="wrap hero-inner">
+    <div class="hero-copy">
+      <div class="eyebrow">Intelligent home energy management</div>
+
+      <h1>
+        <span>Energy.</span>
+        <span class="accent">Reimagined.</span>
+      </h1>
+
+      <p class="hero-desc">
+        One intelligent ecosystem connecting solar generation, battery storage,
+        the utility grid and electric mobility. Explore the recorded results
+        of the MATLAB/Simulink energy management model.
+      </p>
+
+      <div class="actions">
+        <a class="btn btn-primary" href="#system">Explore the system ↘</a>
+        <a class="btn" href="#scopes">Explore Scope graphs →</a>
+      </div>
+
+      <div class="hero-stats">
+        <div class="hero-stat">
+          <strong id="heroSamples">—</strong>
+          <small>Recorded samples</small>
+        </div>
+        <div class="hero-stat">
+          <strong id="heroScenarios">—</strong>
+          <small>Saved scenarios</small>
+        </div>
+        <div class="hero-stat">
+          <strong>MATLAB / Simulink</strong>
+          <small>Simulation platform</small>
+        </div>
+      </div>
+    </div>
+
+    <div class="hero-art" aria-label="Animated energy planet illustration">
+      <div class="planet">
+        <div class="planet-sphere"></div>
+        <div class="planet-core">ϟ</div>
+        <div class="orbit"></div>
+        <div class="orbit two"></div>
+        <div class="satellite"></div>
+        <div class="satellite two"></div>
+      </div>
+
+      <div class="float-label label-one">
+        <small>Final battery SOC</small>
+        <strong id="heroSoc">—</strong>
+      </div>
+      <div class="float-label label-two">
+        <small>Recorded grid energy</small>
+        <strong id="heroGrid">—</strong>
+      </div>
+      <div class="float-label label-three">
+        <small>Solar signal maximum</small>
+        <strong id="heroSolar">—</strong>
+      </div>
+    </div>
+  </div>
+
+  <div class="wrap hero-bottom">
+    <div>ENGINEERED FOR A SMARTER HOME</div>
+    <div>RECORDED SIMULATION · NOT LIVE HARDWARE</div>
+  </div>
+</section>
+
+<!-- MOVING BANNER -->
+<div class="ticker" aria-hidden="true">
+  <div class="ticker-track">
+    <span><b>✳</b> Solar generation</span>
+    <span><b>✳</b> Intelligent control</span>
+    <span><b>✳</b> Battery storage</span>
+    <span><b>✳</b> Grid optimisation</span>
+    <span><b>✳</b> EV integration</span>
+    <span><b>✳</b> Data-driven decisions</span>
+    <span><b>✳</b> Solar generation</span>
+    <span><b>✳</b> Intelligent control</span>
+    <span><b>✳</b> Battery storage</span>
+    <span><b>✳</b> Grid optimisation</span>
+    <span><b>✳</b> EV integration</span>
+    <span><b>✳</b> Data-driven decisions</span>
+  </div>
+</div>
+
+<!-- KPI OVERVIEW -->
+<section class="section" id="overview">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div>
+        <div class="eyebrow">Simulation overview</div>
+        <h2>Every watt<br>has a purpose.</h2>
+      </div>
+      <p>
+        Recorded KPI values from your simulation export. Measurements are
+        shown only when the source values are available.
+      </p>
+    </div>
+
+    <div class="kpis">
+      <article class="kpi reveal">
+        <div class="kpi-top">
+          <span class="kpi-label">Final battery SOC</span>
+          <span class="kpi-icon">ϟ</span>
+        </div>
+        <div class="kpi-value" id="kpiSoc">—</div>
+        <div class="kpi-note">Recorded simulation KPI</div>
+      </article>
+
+      <article class="kpi reveal">
+        <div class="kpi-top">
+          <span class="kpi-label">Grid energy</span>
+          <span class="kpi-icon">⌁</span>
+        </div>
+        <div class="kpi-value" id="kpiGrid">—</div>
+        <div class="kpi-note">Reported energy KPI</div>
+      </article>
+
+      <article class="kpi reveal">
+        <div class="kpi-top">
+          <span class="kpi-label">Intelligent cost</span>
+          <span class="kpi-icon">₹</span>
+        </div>
+        <div class="kpi-value" id="kpiCost">—</div>
+        <div class="kpi-note">Verify currency and units</div>
+      </article>
+
+      <article class="kpi reveal">
+        <div class="kpi-top">
+          <span class="kpi-label">CO₂ emissions</span>
+          <span class="kpi-icon">◌</span>
+        </div>
+        <div class="kpi-value" id="kpiCo2">—</div>
+        <div class="kpi-note">Reported emissions KPI</div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- INTERACTIVE ENERGY MAP -->
+<section class="section" id="system">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div>
+        <div class="eyebrow">Explore the architecture</div>
+        <h2>One home.<br>Connected intelligence.</h2>
+      </div>
+      <p>
+        Select a component to inspect its recorded signal. The graphic describes
+        system relationships; it does not measure live power flow.
+      </p>
+    </div>
+
+    <div class="flow-layout reveal">
+      <div class="panel">
+        <div class="panel-head">
+          <div>
+            <h3>Interactive energy map</h3>
+            <p>Select a component</p>
+          </div>
+          <span class="tag">EXPLORE</span>
+        </div>
+
+        <div class="flow-scene">
+          <div class="flow-grid">
+            <button class="flow-node" data-node="solar">
+              <span class="flow-icon">☀</span>
+              <strong>Solar</strong>
+              <small>PV generation</small>
+            </button>
+            <div class="flow-wire" id="wireSolar"></div>
+
+            <button class="flow-node" data-node="grid">
+              <span class="flow-icon">ϟ</span>
+              <strong>Utility grid</strong>
+              <small>Grid exchange</small>
+            </button>
+
+            <div class="flow-wire" id="wireBattery"></div>
+            <button class="flow-node" data-node="battery">
+              <span class="flow-icon">▰</span>
+              <strong>Battery</strong>
+              <small>Energy storage</small>
+            </button>
+
+            <div class="flow-wire" id="wireHome"></div>
+            <button class="flow-node center selected" data-node="home">
+              <span class="flow-icon">⌂</span>
+              <strong>Smart home</strong>
+              <small>Load management</small>
+            </button>
+
+            <div class="flow-wire" id="wireEV"></div>
+            <button class="flow-node" data-node="ev">
+              <span class="flow-icon">↯</span>
+              <strong>EV</strong>
+              <small>Vehicle signal</small>
+            </button>
+          </div>
+        </div>
+
+        <div class="flow-caption">
+          <span>Conceptual system relationships</span>
+          <span id="flowSample" class="mono">SAMPLE 1</span>
+        </div>
+      </div>
+
+      <aside class="panel">
+        <div class="eyebrow" id="inspectEyebrow">System component</div>
+        <h3 id="inspectTitle" style="font-size:24px;margin:12px 0">Smart home</h3>
+        <span class="tag" id="inspectTag">OVERVIEW</span>
+        <div class="inspect-value mono" id="inspectValue">—</div>
+        <p class="muted" style="font-size:13px" id="inspectDescription">
+          Choose a component to inspect its available values.
+        </p>
+        <div class="inspect-rows" id="inspectRows"></div>
+
+        <div style="padding-top:14px">
+          <label for="sampleSlider"
+            style="display:flex;justify-content:space-between;gap:10px;font-size:12px;margin-bottom:9px">
+            <span class="muted">Recorded time point</span>
+            <b class="mono" id="sampleLabel">1 / —</b>
+          </label>
+          <input id="sampleSlider" type="range" min="0" max="1" value="0">
+          <div style="display:flex;justify-content:space-between;font-size:10px;color:var(--muted)">
+            <span>Start</span><span>End</span>
+          </div>
+        </div>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<!-- RECORDED TELEMETRY -->
+<section class="section" id="telemetry">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div>
+        <div class="eyebrow">Recorded telemetry</div>
+        <h2>Inside the signal.</h2>
+      </div>
+      <p>
+        These charts plot numerical arrays exported in dashboard_data.json.
+        Fraction-form SOC values are converted to percentages for display.
+      </p>
+    </div>
+
+    <div class="charts-grid">
+      <article class="panel reveal">
+        <div class="panel-head">
+          <div><h3>Battery & EV state of charge</h3><p>Percentage of charge</p></div>
+          <span class="tag">SOC</span>
+        </div>
+        <div class="chart-wrap"><canvas class="chart" id="chartSoc"></canvas></div>
+        <div class="legend" id="legendSoc"></div>
+      </article>
+
+      <article class="panel reveal">
+        <div class="panel-head">
+          <div><h3>Grid power</h3><p>Command and actual signals</p></div>
+          <span class="tag">GRID</span>
+        </div>
+        <div class="chart-wrap"><canvas class="chart" id="chartGrid"></canvas></div>
+        <div class="legend" id="legendGrid"></div>
+      </article>
+
+      <article class="panel reveal">
+        <div class="panel-head">
+          <div><h3>Solar generation vs forecast</h3><p>Actual solar and forecast when exported</p></div>
+          <span class="tag">SOLAR</span>
+        </div>
+        <div class="chart-wrap"><canvas class="chart" id="chartSolar"></canvas></div>
+        <div class="legend" id="legendSolar"></div>
+        <p class="chart-note warning" id="solarForecastNote" role="status">
+          Checking for numerical solar forecast data…
+        </p>
+      </article>
+
+      <article class="panel reveal">
+        <div class="panel-head">
+          <div><h3>Cost & emissions</h3><p>Recorded exported traces</p></div>
+          <span class="tag">IMPACT</span>
+        </div>
+        <div class="chart-wrap"><canvas class="chart" id="chartCost"></canvas></div>
+        <div class="legend" id="legendCost"></div>
+      </article>
+    </div>
+
+    <p class="muted" style="font-size:12px;margin-top:16px" id="dataStatus" role="status">
+      Loading dashboard_data.json…
+    </p>
+  </div>
+</section>
+
+<!-- WHAT-IF LAB -->
+<section class="section" id="lab">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div>
+        <div class="eyebrow">Explore alternative conditions</div>
+        <h2>What if you<br>changed the rules?</h2>
+      </div>
+      <p>
+        Adjust assumptions to explore a simplified illustrative rule.
+        These outputs are not results from a new MATLAB/Simulink run.
+      </p>
+    </div>
+
+    <div class="lab-layout reveal">
+      <div class="panel">
+        <div class="panel-head">
+          <div><h3>Scenario controls</h3><p>Adjust assumptions</p></div>
+          <span class="tag">WHAT-IF</span>
+        </div>
+
+        <div class="controls">
+          <div class="control">
+            <label for="solarIn"><span>Solar availability</span><output id="solarOut">3 kW</output></label>
+            <input id="solarIn" type="range" min="0" max="8" step=".5" value="3">
+          </div>
+
+          <div class="control">
+            <label for="loadIn"><span>Home demand</span><output id="loadOut">4 kW</output></label>
+            <input id="loadIn" type="range" min=".5" max="10" step=".5" value="4">
+          </div>
+
+          <div class="control">
+            <label for="priceIn"><span>Electricity price index</span><output id="priceOut">0.40</output></label>
+            <input id="priceIn" type="range" min=".05" max=".8" step=".05" value=".4">
+          </div>
+
+          <div class="control">
+            <label for="tariffIn"><span>Illustrative tariff</span><output id="tariffOut">₹8/kWh</output></label>
+            <input id="tariffIn" type="range" min="2" max="20" step=".5" value="8">
+          </div>
+
+          <div class="control">
+            <label for="evSocIn"><span>EV state of charge</span><output id="evSocOut">60%</output></label>
+            <input id="evSocIn" type="range" min="10" max="100" step="5" value="60">
+          </div>
+
+          <div class="control">
+            <label for="gridIn"><span>Grid availability</span></label>
+            <select id="gridIn" class="select-control">
+              <option value="available">Grid available</option>
+              <option value="outage">Grid outage</option>
+            </select>
+          </div>
+
+          <label class="checkbox-line">
+            <input type="checkbox" id="evConnected" checked>
+            EV connected and available to illustrative rule
+          </label>
+
+          <div style="display:flex;gap:9px;flex-wrap:wrap">
+            <button class="btn btn-primary" id="runLab">Apply scenario ↗</button>
+            <button class="btn" id="resetLab">Reset values</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-head">
+          <div><h3>Illustrative scenario output</h3><p>Calculated from selected assumptions</p></div>
+          <span class="tag">NOT SIMULINK OUTPUT</span>
+        </div>
+
+        <div class="lab-results">
+          <div class="result"><small>EV power request</small><strong id="labCmd">—</strong></div>
+          <div class="result"><small>Estimated grid import</small><strong id="labGrid">—</strong></div>
+          <div class="result"><small>Illustrative energy cost</small><strong id="labCost">—</strong></div>
+          <div class="result"><small>Unserved load</small><strong id="labUnserved">—</strong></div>
+
+          <div class="recommendation">
+            <h4 id="recTitle">Evaluating assumptions</h4>
+            <p id="recText">Adjust the controls to see the illustrative response.</p>
+          </div>
+
+          <div class="bar-compare">
+            <div class="bar-item">
+              <span id="baseLabel">Baseline</span>
+              <div class="bar"><i id="baseBar"></i></div>
+              <b class="mono" id="baseVal">—</b>
+            </div>
+            <div class="bar-item">
+              <span id="managedLabel">Scenario</span>
+              <div class="bar"><i id="managedBar"></i></div>
+              <b class="mono" id="managedVal">—</b>
+            </div>
+            <p class="muted" style="font-size:11px" id="comparisonNote"></p>
+          </div>
+        </div>
+
+        <div class="disclaimer">
+          Simplified assumed one-hour rule. It does not rerun Simulink, forecast
+          real conditions or control physical hardware. The EV sign convention
+          and system constraints must be verified before interpreting example
+          commands as real control actions.
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SCOPE GALLERY -->
+<section class="section" id="scopes">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div><div class="eyebrow">MATLAB / Simulink evidence</div><h2>Inside the<br>simulation.</h2></div>
+      <p>Inspect the original Scope screenshots exported from your model. Filter by topic and click a graph to enlarge it.</p>
+    </div>
+
+    <div class="scope-filters">
+      <button class="scope-filter active" data-filter="all">All graphs</button>
+      <button class="scope-filter" data-filter="energy">Energy & grid</button>
+      <button class="scope-filter" data-filter="solar">Solar</button>
+      <button class="scope-filter" data-filter="economics">Cost & CO₂</button>
+      <button class="scope-filter" data-filter="battery">Battery</button>
+      <button class="scope-filter" data-filter="control">Control</button>
+    </div>
+
+    <div class="scope-gallery">
+      <figure class="scope-card" data-category="energy">
+        <button type="button" onclick="openScope(this)">
+          <img src="./Actual Grid Power.png" alt="Actual Grid Power" loading="lazy">
+          <figcaption><h3>Actual Grid Power</h3><p>Actual grid signal</p></figcaption>
+        </button>
+      </figure>
+
+      <figure class="scope-card" data-category="battery">
+        <button type="button" onclick="openScope(this)">
+          <img src="./Available Battery Capacity.png" alt="Available Battery Capacity" loading="lazy">
+          <figcaption><h3>Available Battery Capacity</h3><p>Battery capacity</p></figcaption>
+        </button>
+      </figure>
+
+      <figure class="scope-card" data-category="economics">
+        <button type="button" onclick="openScope(this)">
+          <img src="./Baseline CO₂ Emissions.png" alt="Baseline CO₂ Emissions" loading="lazy">
+          <figcaption><h3>Baseline CO₂ Emissions</h3><p>Reference emissions</p></figcaption>
+        </button>
+      </figure>
+
+      <figure class="scope-card" data-category="economics">
+        <button type="button" onclick="openScope(this)">
+          <img src="./Baseline Energy Cost.png" alt="Baseline Energy Cost" loading="lazy">
+          <figcaption><h3>Baseline Energy Cost</h3><p>Reference operating cost</p></figcaption>
+        </button>
+      </figure>
+
+      <figure class="scope-card" data-category="energy">
+        <button type="button" onclick="openScope(this)">
+          <img src="./Baseline Peak Demand.png" alt="Baseline Peak Demand" loading="lazy">
+          <figcaption><h3>Baseline Peak Demand</h3><p>Reference peak demand</p></figcaption>
+        </button>
+      </figure>
+
+      <figure class="scope-card" data-category="battery">
+        <button type="button" onclick="openScope(this)">
+          <img src="./Battery Command.png" alt="Battery Command" loading="lazy">
+          <figcaption><h3>Battery Command</h3><p>Controller signal</p></figcaption>
+        </button>
+      </figure>
+
+      <figure class="scope-card" data-category="battery">
+        <button type="button" onclick="openScope(this)">
+          <img src="./Battery Power.png" alt="Battery Power" loading="lazy">
+          <figcaption><h3>Battery Power</h3><p>Battery power signal</p></figcaption>
+        </button>
+      </figure>
+
+      <figure class="scope-card" data-category="battery">
+        <button type="button" onclick="openScope(this)">
+          <img src="./Battery State of Charge.png" alt="Battery State of Charge" loading="lazy">
+          <figcaption><h3>Battery State of Charge</h3><p>Battery SOC</p></figcaption>
+        </button>
+      </figure>
+
+      <figure class="scope-card" data-category="battery">
+        <button type="button" onclick="openScope(this)">
+          <img src="./Battery State of Health.png" alt="Battery State of Health" loading="lazy">
+          <figcaption><h3>Battery State of Health</h3><p>Battery SOH</p></figcaption>
+        </button>
+      </figure>
+
+      <figure class="scope-card" data-category="control">
+        <button type="button" onclick="openScope(this)">
+          <img src="./Controller Decision Code.png" alt="Controller Decision Code" loading="lazy">
+          <figcaption><h3>Controller Decision Code</h3><p>Decision signal</p></figcaption>
+        </button>
+      </figure>
+
+      <figure class="scope-card" data-category="control">
+        <button type="button" onclick="openScope(this)">
+          <img src="./Decision Severity.png" alt="Decision Severity" loading="lazy">
+          <figcaption><h3>Decision Severity</h3><p>Severity signal</p></figcaption>
+        </button>
+      </figure>
+
+      <figure class="scope-card" data-category="energy">
+        <button type="button" onclick="openScope(this)">
+          <img src="./EV State of Charge.png" alt="EV State of Charge" loading="lazy">
+          <figcaption><h3>EV State of Charge</h3><p>EV battery SOC</p></figcaption>
+        </button>
+      </figure>
+
+      <figure class="scope-card" data-category="economics">
+        <button type="button" onclick="openScope(this)">
+          <img src="./Intelligent Energy Cost.png" alt="Intelligent Energy Cost" loading="lazy">
+          <figcaption><h3>Intelligent Energy Cost</h3><p>Managed operating cost</p></figcaption>
+        </button>
+      </figure>
+
+      <figure class="scope-card" data-category="energy">
+        <button type="button" onclick="openScope(this)">
+          <img src="./Intelligent Peak Demand.png" alt="Intelligent Peak Demand" loading="lazy">
+          <figcaption><h3>Intelligent Peak Demand</h3><p>Managed peak demand</p></figcaption>
+        </button>
+      </figure>
+
+      <figure class="scope-card" data-category="control">
+        <button type="button" onclick="openScope(this)">
+          <img src="./Load Shedding.png" alt="Load Shedding" loading="lazy">
+          <figcaption><h3>Load Shedding</h3><p>Load management signal</p></figcaption>
+        </button>
+      </figure>
+
+      <figure class="scope-card" data-category="control">
+        <button type="button" onclick="openScope(this)">
+          <img src="./Optimisation Score.png" alt="Optimisation Score" loading="lazy">
+          <figcaption><h3>Optimisation Score</h3><p>Controller score</p></figcaption>
+        </button>
+      </figure>
+
+      <figure class="scope-card" data-category="energy">
+        <button type="button" onclick="openScope(this)">
+          <img src="./Peak Reduction Percentage.png" alt="Peak Reduction Percentage" loading="lazy">
+          <figcaption><h3>Peak Reduction Percentage</h3><p>Peak demand reduction</p></figcaption>
+        </button>
+      </figure>
+
+      <figure class="scope-card" data-category="solar">
+        <button type="button" onclick="openScope(this)">
+          <img src="./Solar Forecast.png" alt="Solar Forecast" loading="lazy">
+          <figcaption><h3>Solar Forecast Scope</h3><p>Exported Scope screenshot</p></figcaption>
+        </button>
+      </figure>
+
+      <figure class="scope-card" data-category="solar">
+        <button type="button" onclick="openScope(this)">
+          <img src="./Solar Generation.png" alt="Solar Generation" loading="lazy">
+          <figcaption><h3>Solar Generation Scope</h3><p>Exported solar signal screenshot</p></figcaption>
+        </button>
+      </figure>
+
+      <figure class="scope-card" data-category="economics">
+        <button type="button" onclick="openScope(this)">
+          <img src="./Total CO₂ Emissions.png" alt="Total CO₂ Emissions" loading="lazy">
+          <figcaption><h3>Total CO₂ Emissions</h3><p>Recorded emissions</p></figcaption>
+        </button>
+      </figure>
+    </div>
+
+    <p class="table-note">
+      The gallery displays Scope screenshots. Numerical telemetry charts above
+      use JSON arrays rather than reading data from images.
+    </p>
+  </div>
+</section>
+
+<!-- SCENARIO TABLE -->
+<section class="section" id="scenarios">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div><div class="eyebrow">Compare the saved runs</div><h2>Different conditions.<br>Different outcomes.</h2></div>
+      <p>Scenario values are loaded from scenario_comparison. Different operating scenarios are not treated as proof of baseline-controller savings.</p>
+    </div>
+
+    <div class="panel reveal">
+      <div class="panel-head">
+        <div><h3>Simulation scenario comparison</h3><p>Recorded summary metrics</p></div>
+        <button class="btn" id="refreshBtn">↻ Reload data</button>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Scenario</th>
+              <th>Final SOC</th>
+              <th>Grid energy</th>
+              <th>Cost</th>
+              <th>Peak demand</th>
+              <th>CO₂</th>
+              <th>Battery throughput</th>
+              <th>Load shed</th>
+            </tr>
+          </thead>
+          <tbody id="scenarioRows">
+            <tr><td colspan="8">Loading scenario data…</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="table-note" id="scenarioMeta">Loading saved scenarios…</div>
+      <div class="disclaimer" id="metricWarning">
+        Verify the peak-demand export: the currently supplied summary reports the same
+        1 kW peak value for each of the five scenarios.
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ARCHITECTURE -->
+<section class="section" id="architecture">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div><div class="eyebrow">Project architecture</div><h2>From model<br>to insight.</h2></div>
+      <p>The website visualises exported simulation results. It does not replace or rerun the MATLAB/Simulink controller.</p>
+    </div>
+
+    <div class="story-grid">
+      <article class="story-card reveal">
+        <div class="story-number">01 / MODEL</div>
+        <div class="story-symbol">⌘</div>
+        <h3>Simulate</h3>
+        <p>Model household energy components and controller signals in MATLAB/Simulink.</p>
+      </article>
+      <article class="story-card reveal">
+        <div class="story-number">02 / EXPORT</div>
+        <div class="story-symbol">↗</div>
+        <h3>Capture signals</h3>
+        <p>Export numerical timeseries and KPI summaries to JSON alongside original Scope images.</p>
+      </article>
+      <article class="story-card reveal">
+        <div class="story-number">03 / EXPLORE</div>
+        <div class="story-symbol">ϟ</div>
+        <h3>Understand results</h3>
+        <p>Inspect telemetry, compare scenarios and review saved Scope outputs.</p>
+      </article>
+    </div>
+
+    <div class="arch reveal">
+      <div class="arch-node"><b>MATLAB / Simulink</b><small>Simulation model</small></div>
+      <span class="arch-arrow">→</span>
+      <div class="arch-node"><b>JSON + Scope PNGs</b><small>Exported results</small></div>
+      <span class="arch-arrow">→</span>
+      <div class="arch-node"><b>HEMS website</b><small>Visualisation layer</small></div>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer class="footer">
+  <div class="wrap footer-inner">
+    <div>HEMS · INTELLIGENCE IN EVERY WATT</div>
+    <div>MATLAB / Simulink engineering project</div>
+    <div id="footerData">Waiting for recorded data</div>
+  </div>
+</footer>
+
+<dialog class="scope-modal" id="scopeModal">
+  <button type="button" id="closeScope">Close ✕</button>
+  <h3 id="scopeModalTitle">Scope graph</h3>
+  <img id="scopeModalImage" src="" alt="Expanded Scope graph">
+</dialog>
+
+<div class="toast" id="toast" role="status"></div>
+
+<script>
+"use strict";
+
+const $ = id => document.getElementById(id);
+let data = null;
+let activeNode = "home";
+let toastTimer = null;
+
+const palette = {
+  lime:"#c5f783",
+  mint:"#77e3bd",
+  cyan:"#7bdded",
+  amber:"#f3c879",
+  red:"#f18e91",
+  blue:"#88aafa"
+};
+
+const fmt = (v,d=2) => {
+  if (v === null || v === undefined || v === "" || !Number.isFinite(Number(v))) {
+    return "Unavailable";
+  }
+  return Number(v).toLocaleString("en-IN", {maximumFractionDigits:d});
+};
+
+function put(id,value) {
+  if ($(id)) $(id).textContent = value;
+}
+
+function esc(value) {
+  return String(value ?? "").replace(/[&<>"']/g, c => ({
+    "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;", "'":"&#39;"
+  }[c]));
+}
+
+/*
+  In the supplied JSON, SOC values are fractions:
+  0.4299 represents about 43%, not 0.4299%.
+  Convert fractional SOC and SOH into percent for display.
+*/
+function ratioToPercent(value) {
+  if (value === null || value === undefined || value === "") return null;
+  const n = Number(value);
+  if (!Number.isFinite(n)) return null;
+  return n >= 0 && n <= 1 ? n * 100 : n;
+}
+
+function pct(value,d=1) {
+  const n = ratioToPercent(value);
+  return n === null ? "Unavailable" : fmt(n,d) + "%";
+}
+
+function arr(key) {
+  return data && Array.isArray(data[key]) ? data[key] : [];
+}
+
+/* Return the first candidate that has an exported numeric array. */
+function getArray(keys) {
+  for (const key of keys) {
+    const values = arr(key);
+    if (values.length && values.some(v => v !== null && Number.isFinite(Number(v)))) {
+      return {key,values};
+    }
+  }
+  return {key:null,values:[]};
+}
+
+function at(key,index) {
+  const values=arr(key);
+  if(index<0 || index>=values.length || values[index]==null) return null;
+  const n=Number(values[index]);
+  return Number.isFinite(n) ? n : null;
+}
+
+function getRange(key) {
+  const values=arr(key).map(Number).filter(Number.isFinite);
+  return values.length ? {min:Math.min(...values),max:Math.max(...values)} : null;
+}
+
+function sampleCount() {
+  return Math.max(0,...[
+    "time","soc","grid_actual","grid_command","solar","cost","co2","ev_soc","ev_power"
+  ].map(k=>arr(k).length));
+}
+
+function toast(message) {
+  put("toast",message);
+  $("toast").classList.add("show");
+  clearTimeout(toastTimer);
+  toastTimer=setTimeout(()=>$("toast").classList.remove("show"),2300);
+}
+
+/* KPI cards and hero labels */
+function renderKpis() {
+  const k=data.kpi || {};
+  const count=sampleCount();
+  const scenarios=Array.isArray(data.scenario_comparison) ? data.scenario_comparison : [];
+  const solarRange=getRange("solar");
+
+  put("kpiSoc",pct(k.final_soc));
+  put("kpiGrid",k.grid_energy_kwh==null ? "Unavailable" : fmt(k.grid_energy_kwh,3)+" kWh");
+  put("kpiCost",k.cost==null ? "Unavailable" : fmt(k.cost,4));
+  put("kpiCo2",k.co2_kg==null ? "Unavailable" : fmt(k.co2_kg,3)+" kg");
+
+  put("heroSoc",pct(k.final_soc));
+  put("heroGrid",k.grid_energy_kwh==null ? "Unavailable" : fmt(k.grid_energy_kwh,3)+" kWh");
+  put("heroSolar",solarRange ? fmt(solarRange.max,2)+" max" : "Unavailable");
+
+  put("heroSamples",count.toLocaleString("en-IN"));
+  put("heroScenarios",String(scenarios.length).padStart(2,"0"));
+  put("headerStatus","RECORDED DATA LOADED");
+  put("footerData",count.toLocaleString("en-IN")+" recorded samples");
+  put("dataStatus","Loaded dashboard_data.json · "+count.toLocaleString("en-IN")+" recorded time points.");
+
+  $("sampleSlider").max=Math.max(0,count-1);
+  $("sampleSlider").value=0;
+  put("sampleLabel","1 / "+count.toLocaleString("en-IN"));
+}
+
+/* Interactive system inspector */
+const nodeInfo = {
+  solar:{
+    eyebrow:"Renewable generation",title:"Solar generation",tag:"SOLAR",
+    value:i=>fmt(at("solar",i),3),
+    desc:"Solar value from the exported timeseries at the selected sample.",
+    rows:()=>[
+      ["Recorded maximum",getRange("solar") ? fmt(getRange("solar").max,3) : "Unavailable"],
+      ["Recorded minimum",getRange("solar") ? fmt(getRange("solar").min,3) : "Unavailable"],
+      ["Available samples",arr("solar").length.toLocaleString("en-IN")]
+    ]
+  },
+  battery:{
+    eyebrow:"Energy storage",title:"Home battery",tag:"BATTERY",
+    value:i=>pct(at("soc",i)),
+    desc:"Recorded battery state of charge converted from fraction to percent.",
+    rows:()=>[
+      ["Final SOC",pct(data.kpi?.final_soc)],
+      ["Battery throughput",data.kpi?.battery_throughput_kwh==null ? "Unavailable" : fmt(data.kpi.battery_throughput_kwh,3)+" kWh"],
+      ["Advanced SOH",pct(data.kpi?.advanced_soh)]
+    ]
+  },
+  grid:{
+    eyebrow:"Utility exchange",title:"Utility grid",tag:"GRID",
+    value:i=>fmt(at("grid_actual",i),3),
+    desc:"Actual grid signal at this sample. The command series is shown separately.",
+    rows:()=>[
+      ["Grid energy",data.kpi?.grid_energy_kwh==null ? "Unavailable" : fmt(data.kpi.grid_energy_kwh,3)+" kWh"],
+      ["Peak demand",data.kpi?.peak_kw==null ? "Unavailable" : fmt(data.kpi.peak_kw,3)+" kW"],
+      ["Command at sample",fmt(at("grid_command",sampleIndex()),3)]
+    ]
+  },
+  ev:{
+    eyebrow:"Electric mobility",title:"EV signals",tag:"EV",
+    value:i=>fmt(at("ev_power",i),3),
+    desc:"Recorded EV power. The sign is preserved; its interpretation depends on the model's sign convention.",
+    rows:()=>[
+      ["EV state of charge",pct(at("ev_soc",sampleIndex()))],
+      ["Recorded power range",getRange("ev_power") ? fmt(getRange("ev_power").min,3)+" to "+fmt(getRange("ev_power").max,3) : "Unavailable"],
+      ["Maximum EV power KPI",data.kpi?.max_ev_power_kw==null ? "Unavailable" : fmt(data.kpi.max_ev_power_kw,3)+" kW"]
+    ]
+  },
+  home:{
+    eyebrow:"System overview",title:"Smart home",tag:"OVERVIEW",
+    value:()=>"Load not exported",
+    desc:"A dedicated household-load timeseries was not identified in the exported JSON, so this panel does not invent a load measurement.",
+    rows:()=>[
+      ["Direct load series","Not exported"],
+      ["Grid energy",data.kpi?.grid_energy_kwh==null ? "Unavailable" : fmt(data.kpi.grid_energy_kwh,3)+" kWh"],
+      ["Load-shed duration",data.kpi?.load_shedding_seconds==null ? "Unavailable" : fmt(data.kpi.load_shedding_seconds,2)+" s"]
+    ]
+  }
+};
+
+function sampleIndex() {
+  return Number($("sampleSlider").value) || 0;
+}
+
+function selectNode(key) {
+  if(!data) return;
+  activeNode=key;
+  document.querySelectorAll(".flow-node").forEach(node=>{
+    node.classList.toggle("selected",node.dataset.node===key);
+  });
+
+  const info=nodeInfo[key] || nodeInfo.home;
+  put("inspectEyebrow",info.eyebrow);
+  put("inspectTitle",info.title);
+  put("inspectTag",info.tag);
+  put("inspectValue",info.value(sampleIndex()));
+  put("inspectDescription",info.desc);
+
+  $("inspectRows").innerHTML=info.rows().map(row=>
+    '<div class="inspect-row"><span>'+esc(row[0])+'</span><b>'+esc(row[1])+'</b></div>'
+  ).join("");
+
+  const wireMap={
+    solar:["wireSolar"],
+    grid:[],
+    battery:["wireBattery","wireHome"],
+    home:["wireSolar","wireHome","wireEV"],
+    ev:["wireEV"]
+  };
+
+  document.querySelectorAll(".flow-wire").forEach(wire=>{
+    wire.classList.toggle("active",(wireMap[key]||[]).includes(wire.id));
+  });
+}
+
+function updateSample(index) {
+  const count=sampleCount();
+  put("sampleLabel",(index+1).toLocaleString("en-IN")+" / "+count.toLocaleString("en-IN"));
+  put("flowSample","SAMPLE "+(index+1).toLocaleString("en-IN"));
+  selectNode(activeNode);
+}
+
+/* Generic chart drawing function */
+function drawChart(canvasId,legendId,series) {
+  const canvas=$(canvasId);
+  if(!canvas) return;
+  const rect=canvas.getBoundingClientRect();
+  if(rect.width<1) return;
+
+  const ctx=canvas.getContext("2d");
+  const dpr=window.devicePixelRatio||1;
+  canvas.width=Math.round(rect.width*dpr);
+  canvas.height=Math.round(rect.height*dpr);
+  ctx.setTransform(dpr,0,0,dpr,0,0);
+
+  const width=rect.width;
+  const height=rect.height;
+  const left=48,right=10,top=13,bottom=27;
+  const plotWidth=width-left-right;
+  const plotHeight=height-top-bottom;
+
+  ctx.clearRect(0,0,width,height);
+
+  const cleaned=series.map(item=>({
+    ...item,
+    values:item.values.map(v=>{
+      if(v===null || v===undefined || v==="" || !Number.isFinite(Number(v))) return null;
+      return Number(v);
+    })
+  }));
+
+  const allValues=cleaned.flatMap(item=>item.values.filter(v=>v!==null));
+
+  if(!allValues.length) {
+    ctx.fillStyle="#b3c4b8";
+    ctx.font="13px system-ui";
+    ctx.fillText("Data unavailable",left,top+25);
+    $(legendId).innerHTML="";
+    return;
+  }
+
+  let min=Math.min(...allValues);
+  let max=Math.max(...allValues);
+
+  if(min===max) { min-=1; max+=1; }
+
+  const padding=(max-min)*.09;
+  min-=padding;
+  max+=padding;
+
+  ctx.font="11px system-ui";
+
+  for(let g=0;g<=4;g++) {
+    const y=top+plotHeight*g/4;
+    const value=max-(max-min)*g/4;
+
+    ctx.strokeStyle="#294237";
+    ctx.lineWidth=1;
+    ctx.beginPath();
+    ctx.moveTo(left,y);
+    ctx.lineTo(width-right,y);
+    ctx.stroke();
+
+    ctx.fillStyle="#b3c4b8";
+    ctx.textAlign="left";
+    ctx.fillText(fmt(value,2),2,y+4);
+  }
+
+  ctx.fillStyle="#b3c4b8";
+  ctx.textAlign="left";
+  ctx.fillText("Start",left,height-5);
+  ctx.textAlign="right";
+  ctx.fillText("End",width-right,height-5);
+
+  cleaned.forEach(item=>{
+    const n=item.values.length;
+    if(!n) return;
+
+    ctx.beginPath();
+    ctx.strokeStyle=item.color;
+    ctx.lineWidth=2.2;
+    ctx.lineJoin="round";
+    ctx.lineCap="round";
+
+    let started=false;
+
+    for(let i=0;i<n;i++) {
+      const value=item.values[i];
+
+      if(value===null) {
+        started=false;
+        continue;
+      }
+
+      const x=left+(n===1?0:i/(n-1))*plotWidth;
+      const y=top+(max-value)/(max-min)*plotHeight;
+
+      if(!started) {
+        ctx.moveTo(x,y);
+        started=true;
+      } else {
+        ctx.lineTo(x,y);
+      }
+    }
+
+    ctx.stroke();
+  });
+
+  $(legendId).innerHTML=cleaned
+    .filter(item=>item.values.length)
+    .map(item=>'<span><i style="background:'+item.color+'"></i>'+esc(item.label)+'</span>')
+    .join("");
+}
+
+/* SOC chart input conversion */
+function socSeries(key) {
+  return arr(key).map(value=>ratioToPercent(value));
+}
+
+/* Charts */
+function renderCharts() {
+  if(!data) return;
+
+  drawChart("chartSoc","legendSoc",[
+    {label:"Battery SOC",values:socSeries("soc"),color:palette.cyan},
+    {label:"EV SOC",values:socSeries("ev_soc"),color:palette.mint}
+  ]);
+
+  drawChart("chartGrid","legendGrid",[
+    {label:"Grid command",values:arr("grid_command"),color:palette.blue},
+    {label:"Grid actual",values:arr("grid_actual"),color:palette.amber}
+  ]);
+
+  /*
+    Solar chart:
+    1. The amber line is the recorded solar signal.
+    2. The cyan line is plotted only from an exported numerical forecast array.
+    3. Scope PNG files cannot supply numerical points to this chart.
+  */
+  const forecast=getArray([
+    "solar_forecast",
+    "P_solar_pred",
+    "solar_pred",
+    "solar_ml_forecast",
+    "selected_solar_forecast"
+  ]);
+
+  const solarSeries=[
+    {label:"Actual solar",values:arr("solar"),color:palette.amber}
+  ];
+
+  if(forecast.values.length) {
+    solarSeries.push({
+      label:"Solar forecast",
+      values:forecast.values,
+      color:palette.cyan
+    });
+
+    put(
+      "solarForecastNote",
+      "Showing actual solar and numerical forecast data from the JSON field \""+forecast.key+"\"."
+    );
+    $("solarForecastNote").classList.remove("warning");
+  } else {
+    put(
+      "solarForecastNote",
+      "Forecast data unavailable: the JSON currently exposes the actual solar series but no numerical forecast array. The cyan forecast line will appear after you export the actual forecast values from Simulink."
+    );
+    $("solarForecastNote").classList.add("warning");
+  }
+
+  drawChart("chartSolar","legendSolar",solarSeries);
+
+  drawChart("chartCost","legendCost",[
+    {label:"Cost",values:arr("cost"),color:palette.cyan},
+    {label:"CO₂",values:arr("co2"),color:palette.red}
+  ]);
+}
+
+/* Render the five saved scenario rows */
+function renderScenarioTable() {
+  const rows=Array.isArray(data.scenario_comparison) ? data.scenario_comparison : [];
+
+  if(!rows.length) {
+    $("scenarioRows").innerHTML='<tr><td colspan="8">No scenario_comparison rows found.</td></tr>';
+    put("scenarioMeta","No saved scenario comparison is available.");
+    return;
+  }
+
+  const fields=[
+    "Scenario_Name",
+    "Final_SOC_Percent",
+    "Grid_Energy_kWh",
+    "Intelligent_Cost",
+    "Peak_Demand_kW",
+    "CO2_kg",
+    "Battery_Throughput_kWh",
+    "Load_Shed_Duration_s"
+  ];
+
+  $("scenarioRows").innerHTML=rows.map((row,index)=>{
+    const cells=fields.map((field,j)=>{
+      let value=row[field];
+
+      if(value==null && field==="Scenario_Name") {
+        value=row.Scenario ?? ("Scenario "+(index+1));
+      }
+
+      if(value==null) return "<td>Unavailable</td>";
+
+      if(j===0) return "<td>"+esc(value)+"</td>";
+
+      if(field==="Final_SOC_Percent") {
+        return "<td>"+fmt(value,2)+"%</td>";
+      }
+
+      return "<td>"+(Number.isFinite(Number(value)) ? fmt(value,4) : esc(value))+"</td>";
+    });
+
+    return "<tr>"+cells.join("")+"</tr>";
+  }).join("");
+
+  put(
+    "scenarioMeta",
+    "Loaded "+rows.length+" saved scenarios. Confirm the units of Intelligent_Cost before describing it as a currency."
+  );
+}
+
+/* Clearly illustrative What-If lab */
+function calculateLab() {
+  const solar=+$("solarIn").value;
+  const load=+$("loadIn").value;
+  const price=+$("priceIn").value;
+  const tariff=+$("tariffIn").value;
+  const soc=+$("evSocIn").value/100;
+  const grid=$("gridIn").value==="available";
+  const connected=$("evConnected").checked;
+  const net=load-solar;
+
+  let cmd=0,mode="",reason="";
+
+  if(!connected) {
+    mode="EV disconnected";
+    reason="The EV is unavailable, so this illustrative rule leaves EV power at zero.";
+  } else if(!grid) {
+    if(net>0 && soc>.2) {
+      cmd=Math.min(net,7);
+      mode="Illustrative EV support";
+      reason="A grid outage and load deficit are assumed. This rule requests EV support up to 7 kW while SOC is above 20%.";
+    } else if(net>0) {
+      mode="SOC guardrail";
+      reason="Demand exceeds solar, but EV SOC is at or below the assumed lower threshold.";
+    } else {
+      mode="No discharge requested";
+      reason="Solar meets or exceeds demand, so this rule does not request EV discharge.";
+    }
+  } else if(net<0) {
+    if(soc<.9) {
+      cmd=-Math.min(-net,7);
+      mode="Illustrative solar charging";
+      reason="Solar exceeds demand. Under this assumed convention, the rule requests EV charging from the surplus.";
+    } else {
+      mode="SOC upper limit";
+      reason="EV SOC is at or above the assumed 90% upper threshold.";
+    }
+  } else if(net>0 && price>=.35) {
+    if(soc>.2) {
+      cmd=Math.min(net,7);
+      mode="Illustrative peak support";
+      reason="The price index is high and demand exceeds solar. This illustrative rule requests EV support up to 7 kW.";
+    } else {
+      mode="SOC guardrail";
+      reason="EV SOC is too low for this illustrative support rule.";
+    }
+  } else if(net>0) {
+    mode="Grid supplies deficit";
+    reason="Demand exceeds solar, but the price index is below 0.35, so this rule does not request EV support.";
+  } else {
+    mode="Balanced";
+    reason="Solar and demand are balanced; no EV power request is needed.";
+  }
+
+  const charge=Math.max(0,-cmd);
+  const discharge=Math.max(0,cmd);
+  const netGrid=load+charge-solar-discharge;
+  const gridImport=grid ? Math.max(0,netGrid) : 0;
+  const unserved=grid ? 0 : Math.max(0,netGrid);
+  const baseline=grid ? Math.max(0,load-solar) : 0;
+  const baselineUnserved=grid ? 0 : Math.max(0,load-solar);
+
+  return {
+    solar,load,price,tariff,soc,grid,connected,cmd,mode,reason,
+    gridImport,unserved,cost:gridImport*tariff,
+    baseline,baselineUnserved,baselineCost:baseline*tariff
+  };
+}
+
+function updateLab() {
+  const s=calculateLab();
+
+  put("solarOut",fmt(s.solar,1)+" kW");
+  put("loadOut",fmt(s.load,1)+" kW");
+  put("priceOut",fmt(s.price,2));
+  put("tariffOut","₹"+fmt(s.tariff,2)+"/kWh");
+  put("evSocOut",Math.round(s.soc*100)+"%");
+  put("labCmd",(s.cmd>0?"+":"")+fmt(s.cmd,2)+" kW");
+  put("labGrid",fmt(s.gridImport,2)+" kW");
+  put("labCost","₹"+fmt(s.cost,2));
+  put("labUnserved",fmt(s.unserved,2)+" kW");
+  put("recTitle",s.mode);
+  put("recText",s.reason);
+
+  const baseline=s.grid ? s.baseline : s.baselineUnserved;
+  const scenario=s.grid ? s.gridImport : s.unserved;
+  const maximum=Math.max(baseline,scenario,.1);
+
+  put("baseLabel",s.grid?"Grid-only baseline":"Baseline unserved load");
+  put("managedLabel",s.grid?"Illustrative scenario":"Scenario unserved load");
+  put("baseVal",fmt(baseline,2)+" kW");
+  put("managedVal",fmt(scenario,2)+" kW");
+
+  $("baseBar").style.width=(baseline/maximum*100)+"%";
+  $("managedBar").style.width=(scenario/maximum*100)+"%";
+
+  put("comparisonNote",s.grid
+    ? "One-hour illustrative estimate: baseline cost ₹"+fmt(s.baselineCost,2)+
+      ", scenario cost ₹"+fmt(s.cost,2)+". These are lab assumptions, not recorded simulation results."
+    : "During the assumed outage, grid import and cost are zero by assumption. Baseline unserved load: "+
+      fmt(s.baselineUnserved,2)+" kW; scenario unserved load: "+fmt(s.unserved,2)+" kW."
+  );
+}
+
+/* Scope image modal */
+function openScope(button) {
+  const img=button.querySelector("img");
+  if(!img) return;
+
+  const modal=$("scopeModal");
+  $("scopeModalTitle").textContent=img.alt || "Scope graph";
+  $("scopeModalImage").src=img.src;
+  $("scopeModalImage").alt=img.alt;
+
+  if(typeof modal.showModal==="function") modal.showModal();
+  else window.open(img.src,"_blank","noopener");
+}
+
+function setupScopeGallery() {
+  document.querySelectorAll(".scope-filter").forEach(button=>{
+    button.addEventListener("click",()=>{
+      const filter=button.dataset.filter;
+
+      document.querySelectorAll(".scope-filter").forEach(item=>{
+        item.classList.toggle("active",item===button);
+      });
+
+      document.querySelectorAll(".scope-card").forEach(card=>{
+        card.hidden=filter!=="all" && card.dataset.category!==filter;
+      });
+    });
+  });
+
+  document.querySelectorAll(".scope-card img").forEach(img=>{
+    img.addEventListener("error",()=>{
+      const card=img.closest(".scope-card");
+      if(card && !card.querySelector(".image-error")) {
+        const note=document.createElement("div");
+        note.className="image-error";
+        note.textContent="Image not found — check the exact PNG filename.";
+        card.appendChild(note);
+      }
+    });
+  });
+
+  $("closeScope").addEventListener("click",()=>$("scopeModal").close());
+
+  $("scopeModal").addEventListener("click",event=>{
+    if(event.target===$("scopeModal")) $("scopeModal").close();
+  });
+}
+
+/* Load the existing exported JSON */
+async function loadData() {
+  put("dataStatus","Loading dashboard_data.json…");
+
+  try {
+    const response=await fetch("./dashboard_data.json",{cache:"no-store"});
+    if(!response.ok) throw new Error("HTTP "+response.status);
+
+    data=await response.json();
+
+    renderKpis();
+    renderScenarioTable();
+    renderCharts();
+    updateSample(0);
+    updateLab();
+  } catch(error) {
+    console.error("HEMS data loading error:",error);
+
+    put("headerStatus","DATA UNAVAILABLE");
+    put(
+      "dataStatus",
+      "Could not load dashboard_data.json. Keep it beside index.html and use Live Server or GitHub Pages."
+    );
+    put("scenarioMeta","Scenario data unavailable: "+error.message);
+
+    $("scenarioRows").innerHTML=
+      '<tr><td colspan="8">Could not load dashboard_data.json. Check the file path and browser console.</td></tr>';
+    put(
+      "solarForecastNote",
+      "The chart cannot load because dashboard_data.json is unavailable."
+    );
+  }
+}
+
+/* Event handling */
+function bindEvents() {
+  $("menuBtn").addEventListener("click",()=>{
+    const open=$("navlinks").classList.toggle("open");
+    $("menuBtn").setAttribute("aria-expanded",String(open));
+  });
+
+  document.querySelectorAll(".navlinks a").forEach(link=>{
+    link.addEventListener("click",()=>{
+      $("navlinks").classList.remove("open");
+      $("menuBtn").setAttribute("aria-expanded","false");
+    });
+  });
+
+  document.querySelectorAll(".flow-node").forEach(node=>{
+    node.addEventListener("click",()=>selectNode(node.dataset.node));
+  });
+
+  $("sampleSlider").addEventListener("input",()=>updateSample(sampleIndex()));
+
+  [
+    "solarIn","loadIn","priceIn","tariffIn",
+    "evSocIn","gridIn","evConnected"
+  ].forEach(id=>{
+    $(id).addEventListener("input",updateLab);
+    $(id).addEventListener("change",updateLab);
+  });
+
+  $("runLab").addEventListener("click",()=>{
+    updateLab();
+    toast("Illustrative scenario recalculated");
+  });
+
+  $("resetLab").addEventListener("click",()=>{
+    $("solarIn").value=3;
+    $("loadIn").value=4;
+    $("priceIn").value=.4;
+    $("tariffIn").value=8;
+    $("evSocIn").value=60;
+    $("gridIn").value="available";
+    $("evConnected").checked=true;
+    updateLab();
+    toast("Scenario controls reset");
+  });
+
+  $("refreshBtn").addEventListener("click",loadData);
+
+  let resizeTimer;
+  window.addEventListener("resize",()=>{
+    clearTimeout(resizeTimer);
+    resizeTimer=setTimeout(renderCharts,150);
+  });
+
+  window.addEventListener("scroll",()=>{
+    const max=document.documentElement.scrollHeight-innerHeight;
+    $("progress").style.width=(max>0 ? scrollY/max*100 : 0)+"%";
+    $("topbar").classList.toggle("scrolled",scrollY>20);
+
+    let active="overview";
+    document.querySelectorAll("main section[id]").forEach(section=>{
+      if(section.getBoundingClientRect().top<150) active=section.id;
+    });
+
+    document.querySelectorAll(".navlinks a").forEach(link=>{
+      link.classList.toggle("active",link.getAttribute("href")==="#"+active);
+    });
+  },{passive:true});
+}
+
+/* Reveal sections when they enter the viewport */
+function setupReveal() {
+  if(!("IntersectionObserver" in window)) {
+    document.querySelectorAll(".reveal").forEach(el=>el.classList.add("in"));
+    return;
+  }
+
+  const observer=new IntersectionObserver(entries=>{
+    entries.forEach(entry=>{
+      if(entry.isIntersecting) {
+        entry.target.classList.add("in");
+        observer.unobserve(entry.target);
+      }
+    });
+  },{threshold:.08});
+
+  document.querySelectorAll(".reveal").forEach(el=>observer.observe(el));
+}
+
+bindEvents();
+setupScopeGallery();
+setupReveal();
+updateLab();
+loadData();
+</script>
+</body>
+</html>
+  
